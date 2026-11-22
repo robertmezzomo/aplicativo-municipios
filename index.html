@@ -399,17 +399,17 @@ h1 {
   margin-top: 6px;
   align-items: center;
 }
-.insta-icon {
+.link-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--muted);
   transition: color 0.15s var(--ease);
 }
-.insta-icon:hover {
-  color: #c13584;
+.link-icon:hover {
+  color: var(--accent);
 }
-.insta-icon svg {
+.link-icon svg {
   width: 18px;
   height: 18px;
 }
@@ -569,14 +569,14 @@ h1 {
   border-radius: 3px;
   flex-shrink: 0;
 }
-.cal-tooltip-insta {
+.cal-tooltip-link {
   margin-left: auto;
   color: var(--muted);
   display: inline-flex;
   transition: color 0.15s var(--ease);
 }
-.cal-tooltip-insta:hover { color: #c13584; }
-.cal-tooltip-insta svg { width: 14px; height: 14px; }
+.cal-tooltip-link:hover { color: var(--accent); }
+.cal-tooltip-link svg { width: 14px; height: 14px; }
 
 @media (max-width: 500px) {
   .grid { grid-template-columns: 1fr; }
@@ -682,7 +682,7 @@ h1 {
     return {
       nome: r[0], uf: r[1], regiao: REGIOES[r[1]], nomeUF: NOMES_UF[r[1]],
       dia: r[2], mes: r[3], tipo: tipo, evento: evento,
-      shows: !!r[6], instagram: r[7] || "",
+      shows: !!r[6], link: r[7] || "",
       diasAte: daysUntil(r[2], r[3]),
       dataFmt: r[2] + " de " + MESES_FULL[r[3]]
     };
@@ -699,7 +699,8 @@ h1 {
     ufSelect.appendChild(o);
   });
 
-  var INSTA_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>';
+  var GLOBE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
+  function linkIcon(url) { return GLOBE_SVG; }
 
   var fTipo = "", fRegiao = "", fUF = "", fSearch = "", fProx = 0, fShows = false;
   var grid = document.getElementById("grid");
@@ -768,8 +769,8 @@ h1 {
       else if(m.diasAte<=30){ dCls+=" soon"; dTxt=m.diasAte+" d"; }
       else{ dCls+=" later"; dTxt=m.diasAte+" d"; }
 
-      var instaHtml = m.instagram ?
-        '<a class="insta-icon" href="'+m.instagram+'" target="_blank" rel="noopener" title="Instagram do evento">' + INSTA_SVG + '</a>' : '';
+      var linkHtml = m.link ?
+        '<a class="link-icon" href="'+m.link+'" target="_blank" rel="noopener" title="Página do evento">' + linkIcon(m.link) + '</a>' : '';
 
       html += '<div class="'+cls+'">' +
         '<div class="card-bar"></div>' +
@@ -790,7 +791,7 @@ h1 {
           '<span class="type-tag tag-'+m.tipo+'">'+TIPO_LABEL[m.tipo]+'</span>' +
           '<div class="shows-tag"><span class="festa-dot"></span> Shows nacionais</div>' +
           '<div class="card-actions">' +
-            instaHtml +
+            linkHtml +
           '</div>' +
         '</div>' +
       '</div>';
@@ -870,7 +871,7 @@ h1 {
       h += '<div class="cal-tooltip-item">';
       h += '<span class="cal-tooltip-type" style="background:'+tBg+';color:'+tColor+'">'+TIPO_LABEL[m.tipo]+'</span>';
       h += '<span>'+m.nome+'</span>';
-      if(m.instagram) h += '<a class="cal-tooltip-insta" href="'+m.instagram+'" target="_blank" rel="noopener" title="Instagram">' + INSTA_SVG + '</a>';
+      if(m.link) h += '<a class="cal-tooltip-link" href="'+m.link+'" target="_blank" rel="noopener" title="Página do evento">' + linkIcon(m.link) + '</a>';
       h += '</div>';
     });
     tooltip.innerHTML = h;

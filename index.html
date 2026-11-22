@@ -1,75 +1,71 @@
 <title>Aniversários dos Municípios</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap">
 <style>
-/* Layout: sticky filter bar, responsive grid of municipality cards sorted by anniversary proximity */
 :root {
-  --bg: #F7F8FB;
-  --surface: #FFFFFF;
-  --fg: #1A1D26;
-  --muted: #6B7084;
-  --line: #E2E4EC;
-  --accent: #2563EB;
-  --accent-soft: #EBF0FF;
-  --festa: #E85D04;
-  --festa-soft: #FFF1E6;
-  --success: #059669;
-  --success-soft: #ECFDF5;
-  --tag-bg: #F0F1F5;
-  --radius: 10px;
-  --display: "Space Grotesk", system-ui, sans-serif;
-  --body: "Inter", system-ui, sans-serif;
+  --bg: #f7f4ee;
+  --surface: #fdfbf7;
+  --raised: #efe9df;
+  --line: rgba(31,27,22,0.08);
+  --fg: #1f1b16;
+  --secondary: #5e554a;
+  --muted: #7b7266;
+  --accent: #b45309;
+  --accent-soft: rgba(180,83,9,0.08);
+  --positive: #16a34a;
+  --positive-soft: rgba(22,163,74,0.08);
+  --festa: #b45309;
+  --festa-soft: rgba(180,83,9,0.07);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --sans: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0F1117;
-    --surface: #1A1D26;
-    --fg: #E8E9ED;
-    --muted: #8B8FA3;
-    --line: #2A2D3A;
-    --accent: #5B8DEF;
-    --accent-soft: #1A2744;
-    --festa: #FB923C;
-    --festa-soft: #2A1A0A;
-    --success: #34D399;
-    --success-soft: #0A2A1A;
-    --tag-bg: #22252F;
+    --bg: #161513;
+    --surface: #1c1a18;
+    --raised: #262421;
+    --line: rgba(239,233,222,0.08);
+    --fg: #efe9de;
+    --secondary: #aaa398;
+    --muted: #8a847a;
+    --accent: #e59c2f;
+    --accent-soft: rgba(229,156,47,0.1);
+    --positive: #4cc38a;
+    --positive-soft: rgba(76,195,138,0.1);
+    --festa: #e59c2f;
+    --festa-soft: rgba(229,156,47,0.08);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0F1117;
-  --surface: #1A1D26;
-  --fg: #E8E9ED;
-  --muted: #8B8FA3;
-  --line: #2A2D3A;
-  --accent: #5B8DEF;
-  --accent-soft: #1A2744;
-  --festa: #FB923C;
-  --festa-soft: #2A1A0A;
-  --success: #34D399;
-  --success-soft: #0A2A1A;
-  --tag-bg: #22252F;
+  --bg: #161513;
+  --surface: #1c1a18;
+  --raised: #262421;
+  --line: rgba(239,233,222,0.08);
+  --fg: #efe9de;
+  --secondary: #aaa398;
+  --muted: #8a847a;
+  --accent: #e59c2f;
+  --accent-soft: rgba(229,156,47,0.1);
+  --positive: #4cc38a;
+  --positive-soft: rgba(76,195,138,0.1);
+  --festa: #e59c2f;
+  --festa-soft: rgba(229,156,47,0.08);
   color-scheme: dark;
 }
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--body);
+  font-family: var(--sans);
+  font-size: 14px;
   line-height: 1.5;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 0;
-}
-* { box-sizing: border-box; }
-
-.header {
-  position: sticky;
-  top: env(safe-area-inset-top, 0px);
-  z-index: 5;
-  background: var(--bg);
-  padding: 16px 0 12px;
-  border-bottom: 1px solid var(--line);
 }
 body::before {
   content: "";
@@ -79,18 +75,37 @@ body::before {
   z-index: 10;
   background: var(--bg);
 }
+* { box-sizing: border-box; }
 
-h1 {
-  font-family: var(--display);
-  font-size: clamp(1.4rem, 3vw, 1.8rem);
-  font-weight: 700;
-  margin: 0 0 4px;
-  letter-spacing: -0.02em;
+.wrap { max-width: 1080px; margin: 0 auto; }
+
+.header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  background: var(--bg);
+  padding: 20px 0 16px;
+  border-bottom: 1px solid var(--line);
 }
-.subtitle {
+.header-top {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+h1 {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.header-date {
+  font-size: 13px;
   color: var(--muted);
-  font-size: 0.875rem;
-  margin: 0 0 14px;
+  font-variant-numeric: tabular-nums;
 }
 
 .filters {
@@ -100,362 +115,371 @@ h1 {
   align-items: center;
 }
 .filters select, .filters input[type="text"] {
-  font-family: var(--body);
-  font-size: 0.8125rem;
-  padding: 7px 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  padding: 8px 12px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--fg);
   outline: none;
   min-width: 0;
+  transition: border-color 0.15s var(--ease);
 }
 .filters select:focus, .filters input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-soft);
 }
 .filters select { cursor: pointer; }
-.search-input { flex: 1 1 160px; max-width: 280px; }
+.search-input { flex: 1 1 160px; max-width: 260px; }
 
-.toggle-row {
+.controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 12px;
 }
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.75rem;
+.pill-group {
+  display: flex;
+  gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+.pill-btn {
+  font-family: var(--sans);
+  font-size: 12px;
   font-weight: 500;
   padding: 5px 10px;
-  border-radius: 20px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+.pill-btn:hover { color: var(--secondary); }
+.pill-btn.active {
+  background: var(--fg);
+  color: var(--bg);
+}
+.festa-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 12px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   border: 1px solid var(--line);
   background: var(--surface);
-  color: var(--muted);
+  color: var(--secondary);
   user-select: none;
-  transition: all 0.15s;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease), border-color 0.15s var(--ease);
+  font-family: var(--sans);
 }
-.chip.active {
+.festa-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.festa-toggle.active {
   background: var(--festa-soft);
   color: var(--festa);
   border-color: var(--festa);
 }
-.chip .dot {
-  width: 7px; height: 7px;
+.festa-dot {
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--festa);
+  flex-shrink: 0;
 }
 
-.stats-bar {
+.stats {
   display: flex;
-  gap: 16px;
-  padding: 12px 0 8px;
-  font-size: 0.8125rem;
+  gap: 24px;
+  padding: 16px 0 12px;
+  font-size: 13px;
   color: var(--muted);
   flex-wrap: wrap;
+  font-variant-numeric: tabular-nums;
 }
-.stats-bar strong {
+.stats strong {
   color: var(--fg);
-  font-weight: 600;
-}
-
-.proximity-pills {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-.prox-pill {
-  font-size: 0.75rem;
-  padding: 5px 10px;
-  border-radius: 20px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  color: var(--muted);
-  cursor: pointer;
   font-weight: 500;
-  transition: all 0.15s;
-  font-family: var(--body);
 }
-.prox-pill.active {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
+.stat-sep { color: var(--line); }
+.stat-today { color: var(--positive); }
+.stat-festa { color: var(--festa); }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 10px;
-  padding: 12px 0 32px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 8px;
+  padding-block: 8px 40px;
 }
 
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  transition: box-shadow 0.15s;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  gap: 0 12px;
+  transition: box-shadow 0.15s var(--ease);
   position: relative;
-  overflow: hidden;
 }
 .card:hover {
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
-.card.is-today {
-  border-color: var(--success);
-  box-shadow: 0 0 0 2px var(--success-soft);
+.card-bar {
+  grid-row: 1 / -1;
+  border-radius: 2px;
+  background: var(--raised);
+  align-self: stretch;
+  transition: background 0.15s var(--ease);
 }
-.card.is-soon {
-  border-left: 3px solid var(--accent);
-}
-.card.has-festa .festa-badge {
-  display: flex;
-}
+.card.is-today .card-bar { background: var(--positive); }
+.card.is-week .card-bar { background: var(--accent); }
+.card.is-month .card-bar { background: var(--muted); opacity: 0.4; }
 
-.card-top {
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.card-row-top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: baseline;
   gap: 8px;
 }
 .city-name {
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 500;
+  font-size: 14px;
   line-height: 1.3;
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.days-badge {
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 12px;
+.days-label {
+  font-size: 12px;
+  font-weight: 500;
   white-space: nowrap;
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
 }
-.days-badge.today {
-  background: var(--success-soft);
-  color: var(--success);
-}
-.days-badge.soon {
-  background: var(--accent-soft);
-  color: var(--accent);
-}
-.days-badge.later {
-  background: var(--tag-bg);
-  color: var(--muted);
-}
+.days-label.today { color: var(--positive); }
+.days-label.soon { color: var(--accent); }
+.days-label.later { color: var(--muted); }
 
-.card-meta {
+.card-row-meta {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.8rem;
+  font-size: 12px;
   color: var(--muted);
-  flex-wrap: wrap;
+  line-height: 1;
 }
-.uf-tag {
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: var(--tag-bg);
-  color: var(--muted);
-  letter-spacing: 0.03em;
+.uf-label {
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
-.regiao-tag {
-  font-size: 0.7rem;
-  color: var(--muted);
+.meta-dot {
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+  opacity: 0.5;
 }
 
-.date-line {
-  font-size: 0.8125rem;
-  color: var(--fg);
+.card-row-date {
+  font-size: 13px;
+  color: var(--secondary);
+  margin-top: 2px;
   font-variant-numeric: tabular-nums;
 }
-.date-line span {
-  font-weight: 600;
-}
 
-.festa-badge {
+.festa-tag {
   display: none;
   align-items: center;
   gap: 4px;
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   color: var(--festa);
-  background: var(--festa-soft);
-  padding: 3px 8px;
-  border-radius: 12px;
-  width: fit-content;
+  margin-top: 4px;
 }
-.festa-badge svg {
-  width: 12px; height: 12px;
-  fill: var(--festa);
-}
+.card.has-festa .festa-tag { display: flex; }
 
-.empty-state {
+.empty {
   text-align: center;
   padding: 48px 16px;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 14px;
   grid-column: 1 / -1;
 }
-.empty-state .icon { font-size: 2rem; margin-bottom: 8px; }
+.empty-label {
+  font-size: 13px;
+  margin-top: 4px;
+}
 
 @media (max-width: 500px) {
   .grid { grid-template-columns: 1fr; }
-  .search-input { max-width: none; }
+  .search-input { max-width: none; flex: 1 1 100%; }
+  h1 { font-size: 20px; }
+  .stats { gap: 16px; }
 }
 </style>
 
-<div class="header">
-  <h1>Aniversários dos Municípios</h1>
-  <p class="subtitle">Descubra quando cada cidade brasileira comemora seu aniversário</p>
-  <div class="filters">
-    <select id="filterRegiao">
-      <option value="">Todas as regiões</option>
-      <option value="N">Norte</option>
-      <option value="NE">Nordeste</option>
-      <option value="CO">Centro-Oeste</option>
-      <option value="SE">Sudeste</option>
-      <option value="S">Sul</option>
-    </select>
-    <select id="filterUF">
-      <option value="">Todos os estados</option>
-    </select>
-    <input type="text" id="searchInput" class="search-input" placeholder="Buscar município...">
-  </div>
-  <div class="toggle-row">
-    <div class="proximity-pills" id="proxPills">
-      <button class="prox-pill active" data-days="0">Todos</button>
-      <button class="prox-pill" data-days="7">7 dias</button>
-      <button class="prox-pill" data-days="15">15 dias</button>
-      <button class="prox-pill" data-days="30">30 dias</button>
-      <button class="prox-pill" data-days="90">90 dias</button>
+<div class="wrap">
+  <div class="header">
+    <div class="header-top">
+      <h1>Aniversários dos Municípios</h1>
+      <span class="header-date" id="todayDate"></span>
     </div>
-    <div class="chip" id="festaToggle">
-      <span class="dot"></span>
-      Apenas com festa agendada
+    <div class="filters">
+      <select id="filterRegiao">
+        <option value="">Todas as regiões</option>
+        <option value="N">Norte</option>
+        <option value="NE">Nordeste</option>
+        <option value="CO">Centro-Oeste</option>
+        <option value="SE">Sudeste</option>
+        <option value="S">Sul</option>
+      </select>
+      <select id="filterUF">
+        <option value="">Todos os estados</option>
+      </select>
+      <input type="text" id="searchInput" class="search-input" placeholder="Buscar município">
+    </div>
+    <div class="controls">
+      <div class="pill-group" id="proxPills">
+        <button class="pill-btn active" data-days="0">Todos</button>
+        <button class="pill-btn" data-days="7">7 d</button>
+        <button class="pill-btn" data-days="15">15 d</button>
+        <button class="pill-btn" data-days="30">30 d</button>
+        <button class="pill-btn" data-days="90">90 d</button>
+      </div>
+      <button class="festa-toggle" id="festaToggle">
+        <span class="festa-dot"></span>
+        Com festa agendada
+      </button>
     </div>
   </div>
-</div>
 
-<div class="stats-bar" id="statsBar"></div>
-<div class="grid" id="grid"></div>
+  <div class="stats" id="statsBar"></div>
+  <div class="grid" id="grid"></div>
+</div>
 
 <script src="dados.js"></script>
 <script>
 (function(){
-  const today = new Date();
+  var today = new Date();
   today.setHours(0,0,0,0);
-  const todayM = today.getMonth()+1;
-  const todayD = today.getDate();
-  const MESES = ["","Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-  const MESES_FULL = ["","janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+  var MESES_FULL = ["","janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+
+  document.getElementById("todayDate").textContent =
+    today.getDate() + " de " + MESES_FULL[today.getMonth()+1] + " de " + today.getFullYear();
 
   function daysUntil(d, m) {
-    const thisYear = today.getFullYear();
-    let next = new Date(thisYear, m-1, d);
+    var y = today.getFullYear();
+    var next = new Date(y, m-1, d);
     next.setHours(0,0,0,0);
-    if (next < today) next = new Date(thisYear+1, m-1, d);
+    if (next < today) next = new Date(y+1, m-1, d);
     return Math.round((next - today) / 86400000);
   }
 
-  const data = MUNICIPIOS.map(([nome, uf, dia, mes, festa]) => ({
-    nome, uf,
-    regiao: REGIOES[uf],
-    nomeUF: NOMES_UF[uf],
-    dia, mes, festa: !!festa,
-    diasAte: daysUntil(dia, mes),
-    dataFmt: dia + " de " + MESES_FULL[mes],
-  }));
+  var data = MUNICIPIOS.map(function(r) {
+    return {
+      nome: r[0], uf: r[1], regiao: REGIOES[r[1]], nomeUF: NOMES_UF[r[1]],
+      dia: r[2], mes: r[3], festa: !!r[4],
+      diasAte: daysUntil(r[2], r[3]),
+      dataFmt: r[2] + " de " + MESES_FULL[r[3]]
+    };
+  });
 
-  // populate UF dropdown sorted
-  const ufSelect = document.getElementById("filterUF");
-  const ufs = [...new Set(data.map(d=>d.uf))].sort((a,b)=>NOMES_UF[a].localeCompare(NOMES_UF[b]));
-  ufs.forEach(uf => {
-    const o = document.createElement("option");
+  var ufSelect = document.getElementById("filterUF");
+  var ufs = [];
+  var seen = {};
+  data.forEach(function(d){ if(!seen[d.uf]){seen[d.uf]=1;ufs.push(d.uf);} });
+  ufs.sort(function(a,b){return NOMES_UF[a].localeCompare(NOMES_UF[b]);});
+  ufs.forEach(function(uf) {
+    var o = document.createElement("option");
     o.value = uf; o.textContent = NOMES_UF[uf] + " (" + uf + ")";
     ufSelect.appendChild(o);
   });
 
-  let filterRegiao = "";
-  let filterUF = "";
-  let filterSearch = "";
-  let filterProx = 0;
-  let filterFesta = false;
-
-  const grid = document.getElementById("grid");
-  const statsBar = document.getElementById("statsBar");
+  var fRegiao = "", fUF = "", fSearch = "", fProx = 0, fFesta = false;
+  var grid = document.getElementById("grid");
+  var statsBar = document.getElementById("statsBar");
 
   function render() {
-    let filtered = data;
-    if (filterRegiao) filtered = filtered.filter(d => d.regiao === filterRegiao);
-    if (filterUF) filtered = filtered.filter(d => d.uf === filterUF);
-    if (filterSearch) {
-      const q = filterSearch.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
-      filtered = filtered.filter(d => {
-        const n = d.nome.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
-        return n.includes(q);
+    var f = data;
+    if (fRegiao) f = f.filter(function(d){return d.regiao===fRegiao;});
+    if (fUF) f = f.filter(function(d){return d.uf===fUF;});
+    if (fSearch) {
+      var q = fSearch.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+      f = f.filter(function(d){
+        return d.nome.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").indexOf(q)>=0;
       });
     }
-    if (filterProx > 0) filtered = filtered.filter(d => d.diasAte <= filterProx);
-    if (filterFesta) filtered = filtered.filter(d => d.festa);
+    if (fProx > 0) f = f.filter(function(d){return d.diasAte<=fProx;});
+    if (fFesta) f = f.filter(function(d){return d.festa;});
+    f.sort(function(a,b){return a.diasAte-b.diasAte;});
 
-    filtered.sort((a,b) => a.diasAte - b.diasAte);
+    var festaCount=0, hojeCt=0, semCt=0;
+    f.forEach(function(d){
+      if(d.festa) festaCount++;
+      if(d.diasAte===0) hojeCt++;
+      else if(d.diasAte<=7) semCt++;
+    });
 
-    const festaCount = filtered.filter(d=>d.festa).length;
-    const hojeCt = filtered.filter(d=>d.diasAte===0).length;
-    const semCt = filtered.filter(d=>d.diasAte>0&&d.diasAte<=7).length;
+    var s = "<span><strong>"+f.length+"</strong> municípios</span>";
+    if(hojeCt) s += '<span class="stat-sep">·</span><span class="stat-today"><strong>'+hojeCt+'</strong> hoje</span>';
+    if(semCt) s += '<span class="stat-sep">·</span><span><strong>'+semCt+'</strong> em 7 dias</span>';
+    s += '<span class="stat-sep">·</span><span class="stat-festa"><strong>'+festaCount+'</strong> com festa</span>';
+    statsBar.innerHTML = s;
 
-    statsBar.innerHTML =
-      "<span><strong>" + filtered.length + "</strong> municípios</span>" +
-      (hojeCt ? "<span>🎂 <strong>" + hojeCt + "</strong> aniversariando hoje</span>" : "") +
-      (semCt ? "<span>📅 <strong>" + semCt + "</strong> nos próximos 7 dias</span>" : "") +
-      "<span>🎉 <strong>" + festaCount + "</strong> com festa agendada</span>";
-
-    if (!filtered.length) {
-      grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div>Nenhum município encontrado com esses filtros.</div>';
+    if(!f.length){
+      grid.innerHTML = '<div class="empty">Nenhum município encontrado<div class="empty-label">Tente ajustar os filtros</div></div>';
       return;
     }
 
-    let html = "";
-    for (const m of filtered) {
-      const isToday = m.diasAte === 0;
-      const isSoon = m.diasAte > 0 && m.diasAte <= 7;
-      let cls = "card";
-      if (isToday) cls += " is-today";
-      else if (isSoon) cls += " is-soon";
-      if (m.festa) cls += " has-festa";
+    var html = "";
+    for(var i=0;i<f.length;i++){
+      var m = f[i];
+      var isToday = m.diasAte===0;
+      var isWeek = m.diasAte>0 && m.diasAte<=7;
+      var isMonth = m.diasAte>7 && m.diasAte<=30;
+      var cls = "card";
+      if(isToday) cls+=" is-today";
+      else if(isWeek) cls+=" is-week";
+      else if(isMonth) cls+=" is-month";
+      if(m.festa) cls+=" has-festa";
 
-      let badgeCls = "days-badge";
-      let badgeTxt = "";
-      if (isToday) { badgeCls += " today"; badgeTxt = "Hoje!"; }
-      else if (m.diasAte <= 30) { badgeCls += " soon"; badgeTxt = m.diasAte + " dia" + (m.diasAte>1?"s":""); }
-      else { badgeCls += " later"; badgeTxt = m.diasAte + " dias"; }
+      var dCls = "days-label";
+      var dTxt;
+      if(isToday){ dCls+=" today"; dTxt="Hoje"; }
+      else if(m.diasAte<=30){ dCls+=" soon"; dTxt=m.diasAte+" d"; }
+      else{ dCls+=" later"; dTxt=m.diasAte+" d"; }
 
-      html += '<div class="' + cls + '">' +
-        '<div class="card-top">' +
-          '<span class="city-name">' + m.nome + '</span>' +
-          '<span class="' + badgeCls + '">' + badgeTxt + '</span>' +
-        '</div>' +
-        '<div class="card-meta">' +
-          '<span class="uf-tag">' + m.uf + '</span>' +
-          '<span class="regiao-tag">' + NOMES_REGIAO[m.regiao] + '</span>' +
-        '</div>' +
-        '<div class="date-line">Aniversário: <span>' + m.dataFmt + '</span></div>' +
-        '<div class="festa-badge">' +
-          '<svg viewBox="0 0 16 16"><path d="M8 1.5c-.4 0-.7.3-.7.7v1c0 .4.3.7.7.7s.7-.3.7-.7v-1c0-.4-.3-.7-.7-.7zm4.2 2.3c-.3-.3-.7-.3-1 0l-.7.7c-.3.3-.3.7 0 1s.7.3 1 0l.7-.7c.3-.3.3-.7 0-1zM3.8 3.8c-.3.3-.3.7 0 1l.7.7c.3.3.7.3 1 0s.3-.7 0-1l-.7-.7c-.3-.3-.7-.3-1 0zM8 5.5A4.5 4.5 0 003.5 10c0 1.5.7 2.8 1.8 3.6.3.2.7.4.7.8v.4c0 .4.3.7.7.7h2.6c.4 0 .7-.3.7-.7v-.4c0-.4.4-.6.7-.8A4.48 4.48 0 0012.5 10 4.5 4.5 0 008 5.5z"/></svg>' +
-          'Festa agendada' +
+      html += '<div class="'+cls+'">' +
+        '<div class="card-bar"></div>' +
+        '<div class="card-body">' +
+          '<div class="card-row-top">' +
+            '<span class="city-name">'+m.nome+'</span>' +
+            '<span class="'+dCls+'">'+dTxt+'</span>' +
+          '</div>' +
+          '<div class="card-row-meta">' +
+            '<span class="uf-label">'+m.uf+'</span>' +
+            '<span class="meta-dot"></span>' +
+            '<span>'+NOMES_REGIAO[m.regiao]+'</span>' +
+            '<span class="meta-dot"></span>' +
+            '<span>'+m.nomeUF+'</span>' +
+          '</div>' +
+          '<div class="card-row-date">'+m.dataFmt+'</div>' +
+          '<div class="festa-tag"><span class="festa-dot"></span> Festa agendada</div>' +
         '</div>' +
       '</div>';
     }
@@ -463,37 +487,29 @@ h1 {
   }
 
   document.getElementById("filterRegiao").addEventListener("change", function(){
-    filterRegiao = this.value;
-    // update UF options based on region
-    const opts = ufSelect.querySelectorAll("option");
-    opts.forEach(o => {
-      if (!o.value) { o.style.display = ""; return; }
-      if (!filterRegiao) { o.style.display = ""; return; }
-      o.style.display = REGIOES[o.value] === filterRegiao ? "" : "none";
-    });
-    if (filterUF && filterRegiao && REGIOES[filterUF] !== filterRegiao) {
-      filterUF = ""; ufSelect.value = "";
+    fRegiao = this.value;
+    var opts = ufSelect.querySelectorAll("option");
+    for(var i=0;i<opts.length;i++){
+      var o=opts[i];
+      if(!o.value){o.style.display="";continue;}
+      if(!fRegiao){o.style.display="";continue;}
+      o.style.display = REGIOES[o.value]===fRegiao?"":"none";
     }
+    if(fUF && fRegiao && REGIOES[fUF]!==fRegiao){fUF="";ufSelect.value="";}
     render();
   });
-  document.getElementById("filterUF").addEventListener("change", function(){
-    filterUF = this.value;
+  document.getElementById("filterUF").addEventListener("change",function(){fUF=this.value;render();});
+  document.getElementById("searchInput").addEventListener("input",function(){fSearch=this.value.trim();render();});
+  document.getElementById("festaToggle").addEventListener("click",function(){
+    fFesta=!fFesta;
+    this.classList.toggle("active",fFesta);
     render();
   });
-  document.getElementById("searchInput").addEventListener("input", function(){
-    filterSearch = this.value.trim();
-    render();
-  });
-  document.getElementById("festaToggle").addEventListener("click", function(){
-    filterFesta = !filterFesta;
-    this.classList.toggle("active", filterFesta);
-    render();
-  });
-  document.querySelectorAll(".prox-pill").forEach(btn => {
-    btn.addEventListener("click", function(){
-      document.querySelectorAll(".prox-pill").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".pill-btn").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      document.querySelectorAll(".pill-btn").forEach(function(b){b.classList.remove("active");});
       this.classList.add("active");
-      filterProx = parseInt(this.dataset.days);
+      fProx=parseInt(this.dataset.days);
       render();
     });
   });

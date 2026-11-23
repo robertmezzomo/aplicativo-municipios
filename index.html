@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Eventos Municipais</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap">
@@ -399,6 +404,7 @@ h1 {
   margin-top: 6px;
   align-items: center;
 }
+.link-na { font-size: 11px; color: var(--text-3, #8a8478); font-style: italic; }
 .link-icon {
   display: inline-flex;
   align-items: center;
@@ -579,6 +585,13 @@ h1 {
 .cal-tooltip-link svg { width: 14px; height: 14px; }
 
 @media (max-width: 500px) {
+  .header { position: static; padding: 14px 0 12px; }
+  .header-top { margin-bottom: 10px; }
+  .header-sub { display: none; }
+  .filters select { flex: 1 1 45%; }
+  .tab-btn, .pill-btn, .shows-toggle, .cal-nav { min-height: 40px; }
+  .link-icon svg { width: 24px; height: 24px; }
+  .link-icon { min-width: 40px; min-height: 40px; justify-content: flex-start; }
   .grid { grid-template-columns: 1fr; }
   .search-input { max-width: none; flex: 1 1 100%; }
   h1 { font-size: 20px; }
@@ -682,7 +695,7 @@ h1 {
     return {
       nome: r[0], uf: r[1], regiao: REGIOES[r[1]], nomeUF: NOMES_UF[r[1]],
       dia: r[2], mes: r[3], tipo: tipo, evento: evento,
-      shows: !!r[6], link: r[7] || "",
+      shows: !!r[6], link: isSpecific(r[7]) ? r[7] : "",
       diasAte: daysUntil(r[2], r[3]),
       dataFmt: r[2] + " de " + MESES_FULL[r[3]]
     };
@@ -699,6 +712,7 @@ h1 {
     ufSelect.appendChild(o);
   });
 
+  function isSpecific(u){ if(!u) return false; try{ var x=new URL(u); return !(/\.gov\.br$/.test(x.hostname) && x.pathname.replace(/\//g,"").length<10); }catch(e){ return false; } }
   var GLOBE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
   function linkIcon(url) { return GLOBE_SVG; }
 
@@ -770,7 +784,7 @@ h1 {
       else{ dCls+=" later"; dTxt=m.diasAte+" d"; }
 
       var linkHtml = m.link ?
-        '<a class="link-icon" href="'+m.link+'" target="_blank" rel="noopener" title="Página do evento">' + linkIcon(m.link) + '</a>' : '';
+        '<a class="link-icon" href="'+m.link+'" target="_blank" rel="noopener" title="Página do evento">' + linkIcon(m.link) + '</a>' : '<span class="link-na" title="Link específico do evento indisponível">link indisponível</span>';
 
       html += '<div class="'+cls+'">' +
         '<div class="card-bar"></div>' +
@@ -871,7 +885,7 @@ h1 {
       h += '<div class="cal-tooltip-item">';
       h += '<span class="cal-tooltip-type" style="background:'+tBg+';color:'+tColor+'">'+TIPO_LABEL[m.tipo]+'</span>';
       h += '<span>'+m.nome+'</span>';
-      if(m.link) h += '<a class="cal-tooltip-link" href="'+m.link+'" target="_blank" rel="noopener" title="Página do evento">' + linkIcon(m.link) + '</a>';
+      if(!m.link) h += '<span class="link-na">link específico indisponível</span>'; if(m.link) h += '<a class="cal-tooltip-link" href="'+m.link+'" target="_blank" rel="noopener" title="Página do evento">' + linkIcon(m.link) + '</a>';
       h += '</div>';
     });
     tooltip.innerHTML = h;
